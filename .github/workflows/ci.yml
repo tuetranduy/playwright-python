@@ -30,6 +30,9 @@ jobs:
     
     - name: Install Playwright browsers
       run: playwright install --with-deps chromium
+
+    - name: Install Allure commandline
+      run: sudo apt-get install -y allure
     
     - name: Run smoke tests
       run: pytest --browser chromium
