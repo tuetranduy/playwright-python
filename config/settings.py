@@ -17,7 +17,7 @@ BASE_URLS = {
     "dev": "https://dev.example.com",
     "qa": "https://qa.example.com",
     "staging": "https://staging.example.com",
-    "prod": "https://example.com"
+    "prod": "https://example.com",
 }
 
 BASE_URL = os.getenv("BASE_URL", BASE_URLS.get(ENV, BASE_URLS["qa"]))

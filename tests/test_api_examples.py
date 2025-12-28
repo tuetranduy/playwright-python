@@ -18,7 +18,7 @@ class TestAPIExamples:
     def test_get_user(self, api_client: APIClient):
         logger.info("Testing GET /users/1")
         response = api_client.get("/users/1")
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "id" in data
@@ -29,7 +29,7 @@ class TestAPIExamples:
     def test_get_all_posts(self, api_client: APIClient):
         logger.info("Testing GET /posts")
         response = api_client.get("/posts")
-        
+
         assert response.status_code == 200
         posts = response.json()
         assert isinstance(posts, list)
@@ -38,13 +38,9 @@ class TestAPIExamples:
 
     def test_create_post(self, api_client: APIClient):
         logger.info("Testing POST /posts")
-        payload = {
-            "title": "Test Post",
-            "body": "This is a test post",
-            "userId": 1
-        }
+        payload = {"title": "Test Post", "body": "This is a test post", "userId": 1}
         response = api_client.post("/posts", json=payload)
-        
+
         assert response.status_code == 201
         data = response.json()
         assert data["title"] == payload["title"]
@@ -57,10 +53,10 @@ class TestAPIExamples:
             "id": 1,
             "title": "Updated Title",
             "body": "Updated body",
-            "userId": 1
+            "userId": 1,
         }
         response = api_client.put("/posts/1", json=payload)
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["title"] == payload["title"]
@@ -69,7 +65,7 @@ class TestAPIExamples:
     def test_delete_post(self, api_client: APIClient):
         logger.info("Testing DELETE /posts/1")
         response = api_client.delete("/posts/1")
-        
+
         assert response.status_code == 200
         logger.info("Post deleted successfully")
 
@@ -85,14 +81,14 @@ class TestAPIValidation:
 
     def test_response_schema_validation(self, api_client: APIClient):
         response = api_client.get("/users/1")
-        
+
         assert response.status_code == 200
         data = response.json()
-        
+
         required_fields = ["id", "name", "username", "email"]
         for field in required_fields:
             assert field in data, f"Missing required field: {field}"
-        
+
         assert isinstance(data["id"], int)
         assert isinstance(data["name"], str)
         logger.info("Schema validation passed")
@@ -100,7 +96,7 @@ class TestAPIValidation:
     @pytest.mark.parametrize("user_id", [1, 2, 3, 4, 5])
     def test_multiple_users(self, api_client: APIClient, user_id):
         response = api_client.get(f"/users/{user_id}")
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["id"] == user_id

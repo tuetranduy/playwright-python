@@ -48,11 +48,14 @@ class TestLogin:
         logger.info(f"Error message displayed: {error_msg}")
 
     @pytest.mark.skip(reason="Update with actual login page URL")
-    @pytest.mark.parametrize("username,password,expected", [
-        ("", "password", "username_required"),
-        ("user@test.com", "", "password_required"),
-        ("", "", "both_required"),
-    ])
+    @pytest.mark.parametrize(
+        "username,password,expected",
+        [
+            ("", "password", "username_required"),
+            ("user@test.com", "", "password_required"),
+            ("", "", "both_required"),
+        ],
+    )
     def test_login_validation(self, page: Page, username, password, expected):
         """Test login field validation."""
         logger.info(f"Testing validation: {expected}")

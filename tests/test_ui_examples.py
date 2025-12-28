@@ -48,11 +48,14 @@ class TestPlaywrightDemo:
 @pytest.mark.regression
 @pytest.mark.ui
 class TestResponsiveDesign:
-    @pytest.mark.parametrize("viewport", [
-        {"width": 375, "height": 667},
-        {"width": 768, "height": 1024},
-        {"width": 1920, "height": 1080},
-    ])
+    @pytest.mark.parametrize(
+        "viewport",
+        [
+            {"width": 375, "height": 667},
+            {"width": 768, "height": 1024},
+            {"width": 1920, "height": 1080},
+        ],
+    )
     def test_responsive_layout(self, page: Page, viewport):
         logger.info(f"Testing viewport: {viewport}")
         page.set_viewport_size(viewport)

@@ -16,11 +16,13 @@ class APIClient:
         self,
         endpoint: str,
         params: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None
+        headers: Optional[Dict[str, str]] = None,
     ) -> requests.Response:
         url = f"{self.base_url}{endpoint}"
         logger.info(f"GET request to: {url}")
-        response = self.session.get(url, params=params, headers=headers, timeout=self.timeout)
+        response = self.session.get(
+            url, params=params, headers=headers, timeout=self.timeout
+        )
         logger.info(f"Response status: {response.status_code}")
         return response
 
@@ -29,11 +31,13 @@ class APIClient:
         endpoint: str,
         data: Optional[Dict[str, Any]] = None,
         json: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None
+        headers: Optional[Dict[str, str]] = None,
     ) -> requests.Response:
         url = f"{self.base_url}{endpoint}"
         logger.info(f"POST request to: {url}")
-        response = self.session.post(url, data=data, json=json, headers=headers, timeout=self.timeout)
+        response = self.session.post(
+            url, data=data, json=json, headers=headers, timeout=self.timeout
+        )
         logger.info(f"Response status: {response.status_code}")
         return response
 
@@ -42,18 +46,18 @@ class APIClient:
         endpoint: str,
         data: Optional[Dict[str, Any]] = None,
         json: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None
+        headers: Optional[Dict[str, str]] = None,
     ) -> requests.Response:
         url = f"{self.base_url}{endpoint}"
         logger.info(f"PUT request to: {url}")
-        response = self.session.put(url, data=data, json=json, headers=headers, timeout=self.timeout)
+        response = self.session.put(
+            url, data=data, json=json, headers=headers, timeout=self.timeout
+        )
         logger.info(f"Response status: {response.status_code}")
         return response
 
     def delete(
-        self,
-        endpoint: str,
-        headers: Optional[Dict[str, str]] = None
+        self, endpoint: str, headers: Optional[Dict[str, str]] = None
     ) -> requests.Response:
         url = f"{self.base_url}{endpoint}"
         logger.info(f"DELETE request to: {url}")

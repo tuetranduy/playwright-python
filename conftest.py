@@ -9,7 +9,7 @@ from config.settings import (
     VIDEO_DIR,
     TRACE_ON,
     HEADLESS,
-    SLOW_MO
+    SLOW_MO,
 )
 from utils.logger import get_logger
 from utils.helpers import get_timestamp, sanitize_filename
@@ -44,7 +44,9 @@ def browser_context_args(browser_context_args: Dict) -> Dict:
 
 
 @pytest.fixture(scope="function")
-def context(browser: Browser, browser_context_args: dict) -> Generator[BrowserContext, None, None]:
+def context(
+    browser: Browser, browser_context_args: dict
+) -> Generator[BrowserContext, None, None]:
     context = browser.new_context(**browser_context_args)
 
     if TRACE_ON != "off":
@@ -52,7 +54,9 @@ def context(browser: Browser, browser_context_args: dict) -> Generator[BrowserCo
 
     yield context
 
-    if TRACE_ON == "on" or (TRACE_ON == "retain-on-failure" and hasattr(context, "_failed")):
+    if TRACE_ON == "on" or (
+        TRACE_ON == "retain-on-failure" and hasattr(context, "_failed")
+    ):
         trace_name = f"trace_{get_timestamp()}.zip"
         trace_path = SCREENSHOT_DIR / trace_name
         context.tracing.stop(path=str(trace_path))
