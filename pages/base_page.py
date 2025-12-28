@@ -1,5 +1,5 @@
-from typing import Optional
-from playwright.sync_api import Page, Locator, expect
+from typing import Literal, Optional
+from playwright.sync_api import Page, Locator
 from config.settings import DEFAULT_TIMEOUT, BASE_URL
 from utils.logger import get_logger
 
@@ -40,7 +40,9 @@ class BasePage:
         logger.info(f"Waiting for URL: {url_pattern}")
         self.page.wait_for_url(url_pattern, timeout=timeout or self.timeout)
 
-    def wait_for_load_state(self, state: str = "load") -> None:
+    def wait_for_load_state(
+        self, state: Literal["domcontentloaded", "load", "networkidle"] = "load"
+    ) -> None:
         logger.info(f"Waiting for load state: {state}")
         self.page.wait_for_load_state(state)
 
