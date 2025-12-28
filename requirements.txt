@@ -1,0 +1,10 @@
+pytest>=9.0.0
+pytest-playwright>=0.7.0
+playwright>=1.57.0
+pytest-html>=4.1.0
+pytest-xdist>=3.6.0
+allure-pytest>=2.13.0
+requests>=2.32.0
+python-dotenv>=1.0.0
+faker>=25.0.0
+pydantic>=2.7.0
