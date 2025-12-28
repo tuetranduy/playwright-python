@@ -34,21 +34,16 @@ jobs:
     - name: Run smoke tests
       run: pytest --browser chromium
       continue-on-error: false
-    
-    - name: Upload test report
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-report-ubuntu-latest-py3.12-chromium
-        path: reports/
-        retention-days: 30
+
+    - name: Generate Allure report html
+      run: allure generate reports/allure-results -o reports/allure-report-html --clean
     
     - name: Upload Allure results
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: test-report-ubuntu-latest-py3.12-chromium
-        path: reports/allure-results/
+        name: allure-report-html
+        path: reports/allure-report-html
         retention-days: 30
 
   lint:
