@@ -1,7 +1,7 @@
+import allure
 import pytest
-from pathlib import Path
 from playwright.sync_api import Page, BrowserContext, Browser
-from typing import Generator, Dict, Any
+from typing import Generator, Dict
 from config.settings import (
     SCREENSHOT_ON_FAILURE,
     SCREENSHOT_DIR,
@@ -19,21 +19,21 @@ logger = get_logger(__name__)
 
 @pytest.fixture(scope="session")
 def browser_type_launch_args(browser_type_launch_args: Dict) -> Dict:
-    """Configure browser launch arguments."""
     return {
         **browser_type_launch_args,
         "headless": HEADLESS,
         "slow_mo": SLOW_MO,
+        "args": ["--start-maximized"],
     }
 
 
 @pytest.fixture(scope="session")
 def browser_context_args(browser_context_args: Dict) -> Dict:
-    """Configure browser context arguments."""
     context_args = {
         **browser_context_args,
-        "viewport": {"width": 1920, "height": 1080},
+        "viewport": {"width": 1920, "height": 1080} if HEADLESS else None,
         "ignore_https_errors": True,
+        "no_viewport": not HEADLESS,
     }
 
     if VIDEO_ON:
@@ -86,11 +86,12 @@ def pytest_runtest_makereport(item, call):
             if page:
                 test_name = sanitize_filename(item.nodeid.replace("::", "_"))
                 screenshot_name = f"{test_name}_{get_timestamp()}.png"
-                screenshot_path = SCREENSHOT_DIR / screenshot_name
-
                 try:
-                    page.screenshot(path=str(screenshot_path), full_page=True)
-                    logger.info(f"Screenshot saved: {screenshot_path}")
+                    allure.attach(
+                        page.screenshot(full_page=True),
+                        name=screenshot_name,
+                        attachment_type=allure.attachment_type.PNG,
+                    )
                 except Exception as e:
                     logger.error(f"Failed to take screenshot: {e}")
 
