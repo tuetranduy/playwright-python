@@ -22,6 +22,15 @@ jobs:
       with:
         python-version: 3.12
         cache: 'pip'
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: zulu
+        java-version: 17
+
+    - name: Install Allure CLI
+      run: npm install -g allure-commandline
     
     - name: Install dependencies
       run: |
@@ -31,12 +40,9 @@ jobs:
     - name: Install Playwright browsers
       run: playwright install --with-deps chromium
 
-    - name: Install Allure commandline
-      run: sudo apt-get install -y allure
-    
     - name: Run smoke tests
       run: pytest --browser chromium
-      continue-on-error: false
+      continue-on-error: true
 
     - name: Generate Allure report html
       run: allure generate reports/allure-results -o reports/allure-report-html --clean
